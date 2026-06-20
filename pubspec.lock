@@ -148,9 +148,11 @@ packages:
   core_module:
     dependency: "direct main"
     description:
-      path: "../core_module"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "55f1dd7b30e9a3fcb5aaffda877c572faffb9d9b"
+      url: "https://github.com/kodenatan17/core_module.git"
+    source: git
     version: "0.0.1"
   crypto:
     dependency: transitive

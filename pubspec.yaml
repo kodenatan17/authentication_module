@@ -20,7 +20,8 @@ dependencies:
   go_router: ^14.2.7
   hive: ^2.2.3
   core_module:
-    path: ../core_module
+     git:
+      url: https://github.com/kodenatan17/core_module.git
 
 dev_dependencies:
   flutter_test:
