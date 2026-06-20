@@ -13,5 +13,5 @@ class AuthenticationRoutes {
   /// (before the auth redirect guard).
   ///
   /// See [AuthenticationModule.routes] for details.
-  static List<RouteBase> get all => [];
+  static List<RouteBase> get all => const [];
 }

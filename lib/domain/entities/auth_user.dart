@@ -1,5 +1,7 @@
+import 'package:equatable/equatable.dart';
+
 /// Authenticated user information.
-class AuthUser {
+class AuthUser extends Equatable {
   final int id;
   final String name;
   final String phone;
@@ -27,14 +29,5 @@ class AuthUser {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AuthUser &&
-          id == other.id &&
-          name == other.name &&
-          phone == other.phone &&
-          avatar == other.avatar;
-
-  @override
-  int get hashCode => Object.hash(id, name, phone, avatar);
+  List<Object?> get props => [id, name, phone, avatar];
 }

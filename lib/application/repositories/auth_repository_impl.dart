@@ -31,7 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
       phone: phone,
       password: password,
     );
-    final result = response.toEntity();
+    final result = response.toDomain();
     if (result.success && result.token.isNotEmpty) {
       await _saveToken(result.token);
     }
@@ -47,7 +47,7 @@ class AuthRepositoryImpl implements AuthRepository {
       phone: phone,
       otp: otp,
     );
-    final result = response.toEntity();
+    final result = response.toDomain();
     if (result.success && result.token.isNotEmpty) {
       await _saveToken(result.token);
     }

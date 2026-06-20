@@ -11,9 +11,7 @@ import '../routes/authentication_routes.dart';
 /// in the shell's GoRouter config because they sit outside the auth
 /// redirect guard. This module's [routes] getter returns an empty list
 /// to avoid duplicate registration.
-class AuthenticationModule extends FeatureModule {
-  bool _initialized = false;
-
+class AuthenticationModule extends BaseFeatureModule {
   @override
   String get name => 'authentication';
 
@@ -25,20 +23,6 @@ class AuthenticationModule extends FeatureModule {
 
   @override
   ModuleManifest get manifest => authenticationManifest;
-
-  @override
-  bool get isInitialized => _initialized;
-
-  @override
-  Future<void> initialize() async {
-    if (_initialized) return;
-    _initialized = true;
-  }
-
-  @override
-  void dispose() {
-    _initialized = false;
-  }
 
   @override
   void setupDependencies() {

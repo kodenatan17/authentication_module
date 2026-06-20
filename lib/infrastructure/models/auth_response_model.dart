@@ -1,8 +1,10 @@
+import 'package:equatable/equatable.dart';
+import 'package:core_module/core_module.dart';
 import '../../domain/entities/auth_result.dart';
 import 'user_model.dart';
 
 /// JSON-serializable model matching AuthResponse from API contract.
-class AuthResponseModel {
+class AuthResponseModel extends Equatable implements ResponseMapper<AuthResult> {
   final bool success;
   final String token;
   final UserModel user;
@@ -27,9 +29,13 @@ class AuthResponseModel {
         'user': user.toJson(),
       };
 
-  AuthResult toEntity() => AuthResult(
+  @override
+  AuthResult toDomain() => AuthResult(
         success: success,
         token: token,
-        user: user.toEntity(),
+        user: user.toDomain(),
       );
+
+  @override
+  List<Object?> get props => [success, token, user];
 }

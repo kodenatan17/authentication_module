@@ -1,7 +1,9 @@
+import 'package:equatable/equatable.dart';
+import 'package:core_module/core_module.dart';
 import '../../domain/entities/auth_user.dart';
 
 /// JSON-serializable model matching User from API contract.
-class UserModel {
+class UserModel extends Equatable implements ResponseMapper<AuthUser> {
   final int id;
   final String name;
   final String phone;
@@ -30,10 +32,14 @@ class UserModel {
         'avatar': avatar,
       };
 
-  AuthUser toEntity() => AuthUser(
+  @override
+  AuthUser toDomain() => AuthUser(
         id: id,
         name: name,
         phone: phone,
         avatar: avatar,
       );
+
+  @override
+  List<Object?> get props => [id, name, phone, avatar];
 }
