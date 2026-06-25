@@ -1,40 +1,56 @@
-import 'package:dio/dio.dart';
+import 'package:authentication_module/application/usecases/refresh_token/do_refresh_token_params.dart';
+import 'package:authentication_module/application/usecases/request_otp/do_request_otp_params.dart';
+import 'package:authentication_module/application/usecases/submit_otp/do_submit_otp_params.dart';
+import 'package:authentication_module/infrastructure/models/request/auth_refresh_token_request_model.dart';
+import 'package:authentication_module/infrastructure/models/request/auth_request_otp_request_model.dart';
+import 'package:authentication_module/infrastructure/models/request/auth_submit_otp_request_model.dart';
+import 'package:authentication_module/infrastructure/models/response/auth_refresh_token_response_model.dart';
+import 'package:authentication_module/infrastructure/models/response/auth_request_otp_response_model.dart';
+import 'package:authentication_module/infrastructure/models/response/auth_submit_otp_response.dart';
+import 'package:authentication_module/infrastructure/services/auth_api_service.dart';
+import 'package:injectable/injectable.dart';
 
-import '../models/auth_response_model.dart';
+abstract class AuthRemoteDataSource {
+  Future<AuthRefreshTokenResponseModel> refreshToken(
+    DoRefreshTokenParams params,
+  );
 
-/// Remote data source for auth API calls.
-class AuthRemoteDataSource {
-  final Dio _dio;
+  Future<AuthSubmitOtpResponseModel> submitOtp(DoSubmitOtpParams params);
 
-  AuthRemoteDataSource(this._dio);
+  Future<AuthRequestOtpResponseModel> requestOtp(DoRequestOtpParams params);
+}
 
-  /// POST /auth/login
-  Future<AuthResponseModel> login({
-    required String phone,
-    required String password,
-  }) async {
-    final response = await _dio.post<Map<String, dynamic>>(
-      '/auth/login',
-      data: {
-        'phone': phone,
-        'password': password,
-      },
+@LazySingleton(as: AuthRemoteDataSource)
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  final AuthApiService _authApiService;
+
+  AuthRemoteDataSourceImpl(this._authApiService);
+
+  @override
+  Future<AuthRefreshTokenResponseModel> refreshToken(
+    DoRefreshTokenParams params,
+  ) async {
+    final response = await _authApiService.refreshToken(
+      AuthRefreshTokenRequestModel(refreshToken: params.refreshToken),
     );
-    return AuthResponseModel.fromJson(response.data ?? {});
+    return response.data;
   }
 
-  /// POST /auth/register/verify
-  Future<AuthResponseModel> verifyOtp({
-    required String phone,
-    required String otp,
-  }) async {
-    final response = await _dio.post<Map<String, dynamic>>(
-      '/auth/register/verify',
-      data: {
-        'phone': phone,
-        'otp': otp,
-      },
+  @override
+  Future<AuthSubmitOtpResponseModel> submitOtp(DoSubmitOtpParams params) async {
+    final response = await _authApiService.submitOtp(
+      AuthSubmitOtpRequestModel(phone: params.phone, otp: params.otp),
     );
-    return AuthResponseModel.fromJson(response.data ?? {});
+    return response.data;
+  }
+
+  @override
+  Future<AuthRequestOtpResponseModel> requestOtp(
+    DoRequestOtpParams params,
+  ) async {
+    final response = await _authApiService.requestOtp(
+      AuthRequestOtpRequestModel(phone: params.phone),
+    );
+    return response.data;
   }
 }

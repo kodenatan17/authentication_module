@@ -1,19 +1,29 @@
-import '../entities/auth_result.dart';
+import 'package:authentication_module/application/usecases/refresh_token/do_refresh_token_params.dart';
+import 'package:authentication_module/application/usecases/request_otp/do_request_otp_params.dart';
+import 'package:authentication_module/application/usecases/submit_otp/do_submit_otp_params.dart';
+import 'package:authentication_module/domain/entities/auth_refresh_token_data.dart';
+import 'package:authentication_module/domain/entities/auth_request_otp_data.dart';
+import 'package:authentication_module/domain/entities/auth_submit_otp_data.dart';
+import 'package:authentication_module/domain/entities/auth_user_token_data.dart';
+import 'package:core_module/domain/entities/base_result_entities.dart';
 
 /// Authentication repository contract.
 abstract class AuthRepository {
-  /// Login with phone + password.
-  Future<AuthResult> login({required String phone, required String password});
+  Future<ResultEntity<AuthRefreshTokenData>> refreshToken({
+    DoRefreshTokenParams doRefreshToken,
+  });
 
-  /// Verify OTP sent during registration.
-  Future<AuthResult> verifyOtp({required String phone, required String otp});
+  Future<ResultEntity<AuthRequestOtpData>> requestOtp({
+    DoRequestOtpParams params,
+  });
 
-  /// Check if user is currently authenticated.
-  bool get isAuthenticated;
+  Future<ResultEntity<AuthSubmitOtpData>> submitOtp({
+    required DoSubmitOtpParams params,
+  });
 
-  /// Get stored token, or null if not logged in.
-  String? get token;
+  Future<ResultEntity<bool>> isLoggedIn();
 
-  /// Clear auth state (logout).
-  Future<void> logout();
+  Future<ResultEntity<void>> authLogout();
+
+  Future<ResultEntity<AuthUserTokenData>> getCurrentToken();
 }

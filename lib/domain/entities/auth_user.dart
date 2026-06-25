@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// Authenticated user information.
 class AuthUser extends Equatable {
   final int id;
   final String name;

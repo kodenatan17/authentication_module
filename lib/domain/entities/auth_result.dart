@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
+
 import 'auth_user.dart';
 
-/// Result returned by auth endpoints.
 class AuthResult extends Equatable {
   final bool success;
   final String token;

@@ -7,7 +7,7 @@ import 'auth_state.dart';
 
 /// Business logic for login and OTP verification.
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthService _authService;
+  final 
 
   AuthBloc({required AuthService authService})
       : _authService = authService,
